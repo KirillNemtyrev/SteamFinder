@@ -11,8 +11,8 @@ module com.example.steam {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.desktop;
-    //requires json.simple;
-    //requires org.jsoup;
+    requires json.simple;
+    requires org.jsoup;
 
     opens com.example.steam to javafx.fxml;
     exports com.example.steam;
