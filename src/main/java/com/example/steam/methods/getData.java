@@ -1,8 +1,8 @@
 package com.example.steam.methods;
 
+import org.jsoup.Jsoup;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -13,14 +13,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-public class getIDtoLink {
+public class getData {
 
     public static void getID(String link, boolean temp) {
         try {
@@ -40,6 +34,7 @@ public class getIDtoLink {
             String steamLimit = profile.getElementsByTagName("isLimitedAccount").item(0).getTextContent();
             String memberSince = profile.getElementsByTagName("memberSince").item(0).getTextContent();
             String steamPrivacy = profile.getElementsByTagName("privacyState").item(0).getTextContent();
+            String steamGameBans = getGameBans(link + "/");
 
             // Remove CDATA from xml
             String steamName = profile.getElementsByTagName("steamID").item(0).
@@ -58,6 +53,10 @@ public class getIDtoLink {
             steamAccount.setSteamVacBans(steamVacBans);
             steamAccount.setSteamTradeBan(steamTradeBan);
             steamAccount.setSteamLimit(steamLimit);
+            steamAccount.setSteamAvatarMini(steamAvatarMini);
+            steamAccount.setSteamGameBan(steamGameBans == null ? "Нет игровых блокировок" :
+                    steamGameBans.equals("Multiple") ? "Несколько игровых блокировок" :
+                            steamGameBans + " игровая(-ы) блокировка");
 
             if(!temp) {
                 history.addData(steamName, steamID64, steamAvatarMini);
@@ -84,6 +83,22 @@ public class getIDtoLink {
         catch (IOException e) {
             System.out.println("Open error download " + e);
             return false;
+        }
+    }
+
+    public static String getGameBans(String link) {
+        try {
+            org.jsoup.nodes.Document doc = Jsoup.connect(link).userAgent("Chrome/4.0.249.0 Safari/532.5").get();
+            org.jsoup.nodes.Element element = doc.body();
+
+            if(element.getElementsByClass("profile_ban").isEmpty()) return null;
+
+            String text = element.getElementsByClass("profile_ban").get(0).text();
+            String[] bans = text.split(" ");
+            return bans[0];
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

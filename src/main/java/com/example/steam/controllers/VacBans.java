@@ -16,11 +16,10 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import org.json.simple.JSONObject;
-
 import java.time.LocalTime;
 import java.time.ZoneId;
 
-public class History {
+public class VacBans {
     @FXML
     private Pagination PageCount;
 
@@ -37,7 +36,7 @@ public class History {
     private Label fieldTextLogo;
 
     @FXML
-    private Label fieldVacBans;
+    private Label fieldHistory;
 
     @FXML
     void initialize() {
@@ -48,7 +47,7 @@ public class History {
 
         eventSetInfo();
 
-        PageCount.setPageCount((int) Math.ceil((double) history.getSizeHistory()/8.0));
+        PageCount.setPageCount((int) Math.ceil((double) vacChecker.getSizeBans()/8.0));
         setupPagination();
     }
 
@@ -58,8 +57,8 @@ public class History {
                 fieldMain.setStyle("-fx-text-fill:#545151"));
         fieldSettings.setOnMouseEntered(event ->
                 fieldSettings.setStyle("-fx-text-fill:#545151"));
-        fieldVacBans.setOnMouseEntered(event ->
-                fieldVacBans.setStyle("-fx-text-fill:#545151"));
+        fieldHistory.setOnMouseEntered(event ->
+                fieldHistory.setStyle("-fx-text-fill:#545151"));
         fieldAuthor.setOnMouseEntered(event ->
                 fieldAuthor.setStyle("-fx-text-fill:#545151"));
     }
@@ -70,9 +69,9 @@ public class History {
                 fieldMain.setStyle("-fx-text-fill:grey"));
         fieldSettings.setOnMouseExited(event ->
                 fieldSettings.setStyle("-fx-text-fill:grey"));
-        fieldVacBans.setOnMouseExited(event -> {
-            fieldVacBans.setStyle("-fx-text-fill:grey");
-            fieldVacBans.setText("VacBans");
+        fieldHistory.setOnMouseExited(event -> {
+            fieldHistory.setStyle("-fx-text-fill:grey");
+            fieldHistory.setText("История");
         });
         fieldAuthor.setOnMouseExited(event ->
                 fieldAuthor.setStyle("-fx-text-fill:grey"));
@@ -85,14 +84,14 @@ public class History {
             Window.updateWindow(stage, "Главная", "account.fxml", 318, 646, false);
         });
 
-        fieldVacBans.setOnMouseClicked(event -> {
-            if(vacChecker.getSizeBans() == 0) {
-                fieldVacBans.setText("Пусто..");
-                fieldVacBans.setStyle("-fx-text-fill:#9e1c1c");
+        fieldHistory.setOnMouseClicked(event -> {
+            if(history.getSizeHistory() == 0) {
+                fieldHistory.setText("Пусто..");
+                fieldHistory.setStyle("-fx-text-fill:#9e1c1c");
                 return;
             }
-            Stage stage = (Stage) fieldVacBans.getScene().getWindow();
-            Window.updateWindow(stage, "Чекер", "list_checker.fxml", 318, 646, false);
+            Stage stage = (Stage) fieldHistory.getScene().getWindow();
+            Window.updateWindow(stage, "История", "history.fxml", 318, 646, false);
         });
     }
 
@@ -112,11 +111,11 @@ public class History {
         PageCount.setPageFactory((pageIndex) -> {
             int count = 1;
             AnchorPane PagePane = createActivePane();
-            while (8*pageIndex + count <= history.getSizeHistory() && count <= 8){
+            while (8*pageIndex + count <= vacChecker.getSizeBans() && count <= 8){
 
                 final double posX = 15.0; // default
                 double posY = 10.0 + 55.0*(count - 1);
-                int index = history.getSizeHistory() - (8*pageIndex + count);
+                int index = vacChecker.getSizeBans() - (8*pageIndex + count);
 
                 PagePane.getChildren().add(insertInfo(posX, posY, index));
                 count++;
@@ -136,7 +135,7 @@ public class History {
     }
 
     @FXML
-    public AnchorPane createPane(double posX, double posY, String SteamID64) {
+    public AnchorPane createPane(double posX, double posY, String SteamID64, boolean border_red) {
 
         AnchorPane ListPane = new AnchorPane();
         ListPane.setLayoutX(posX);
@@ -144,7 +143,7 @@ public class History {
         ListPane.setPrefWidth(253.0);
         ListPane.setPrefHeight(49.0);
         ListPane.setCursor(Cursor.cursor("HAND"));
-        ListPane.setStyle("-fx-background-color: #2f353c");
+        ListPane.setStyle("-fx-background-color: #2f353c;" + (border_red ? "-fx-border-color:red" : ""));
 
         ListPane.setOnMouseEntered(event -> ListPane.setStyle("-fx-background-color: #192128"));
         ListPane.setOnMouseExited(event -> ListPane.setStyle("-fx-background-color: #2f353c"));
@@ -153,7 +152,6 @@ public class History {
             Stage stage = (Stage) fieldMain.getScene().getWindow();
             Window.updateWindow(stage, "Главная", "account.fxml", 318, 646, false);
         });
-
         return ListPane;
     }
 
@@ -174,11 +172,16 @@ public class History {
     @FXML
     public AnchorPane insertInfo(double posX, double posY, int index){
 
-        JSONObject data = history.getData(index);
-        AnchorPane farmPane = createPane(posX, posY, (String) data.get("SteamID64"));
+        JSONObject data = vacChecker.getData(index);
+        int Remindes = (int) data.get("MessageCount");
+        AnchorPane farmPane = createPane(posX, posY, (String) data.get("SteamID64"), Remindes != 0);
 
         String NAME = (String) data.get("Name");
         addLabel(farmPane, "CENTER", NAME, "GREY", 54.0, 15.0, 179,18);
+
+        if(Remindes != 0)
+            addLabel(farmPane, "CENTER",
+                    "+" + ((Remindes <= 9) ? Remindes : "9"), "#b25050", 52, 27, 18,18);
 
         WebView Avatar = new WebView();
         Avatar.setPrefHeight(32.0);

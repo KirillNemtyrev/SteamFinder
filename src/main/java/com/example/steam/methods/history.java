@@ -21,14 +21,11 @@ public class history {
             if(file.createNewFile()) return;
 
             FileReader fileData = new FileReader("history.json");
-            BufferedReader br = new BufferedReader(fileData);
-            if(br.readLine() != null) {
-                Object obj = new JSONParser().parse(fileData.toString());
-                data = (JSONArray) obj;
-            }
+            Object obj = new JSONParser().parse(fileData);
+            data = (JSONArray) obj;
 
         } catch (IOException | ParseException e) {
-            throw new RuntimeException(e);
+             System.out.println("Unable to read file: " + e);
         }
     }
 
@@ -42,6 +39,8 @@ public class history {
 
     public static void addData(String name, String steamID64, String Avatar){
         try {
+            if(!file.isFile()) file.createNewFile();
+
             JSONObject object = new JSONObject();
             object.put("Name", name);
             object.put("SteamID64", steamID64);

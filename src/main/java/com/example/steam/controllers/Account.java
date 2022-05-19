@@ -5,19 +5,16 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.Map;
-import java.util.Properties;
 
-import com.example.steam.StartApplication;
 import com.example.steam.Window;
-import com.example.steam.methods.getIDtoLink;
+import com.example.steam.methods.getData;
 import com.example.steam.methods.history;
 import com.example.steam.methods.steamAccount;
+import com.example.steam.methods.vacChecker;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -27,6 +24,9 @@ public class Account {
 
     @FXML
     private Button btnSearch;
+
+    @FXML
+    private Button btnTrack;
 
     @FXML
     private Label fieldAuthor;
@@ -68,6 +68,9 @@ public class Account {
     private Label fieldTextLogo;
 
     @FXML
+    private Label fieldTrack;
+
+    @FXML
     private Label fieldTradeBans;
 
     @FXML
@@ -75,6 +78,9 @@ public class Account {
 
     @FXML
     private Label fieldVacBans;
+
+    @FXML
+    private Label fieldGameBans;
 
     @FXML
     void initialize() {
@@ -89,6 +95,8 @@ public class Account {
 
     @FXML
     public void eventMouseOnEntered(){
+        btnTrack.setOnMouseEntered(event ->
+                btnTrack.setStyle("-fx-border-color: black; -fx-background-color: #c6ccd2"));
         btnSearch.setOnMouseEntered(event ->
                 btnSearch.setStyle("-fx-border-color: black; -fx-background-color: #c6ccd2"));
 
@@ -109,6 +117,8 @@ public class Account {
 
     @FXML
     public void eventMouseOnExited(){
+        btnTrack.setOnMouseExited(event ->
+                btnTrack.setStyle("-fx-border-color: black; -fx-background-color: LavenderBlush"));
         btnSearch.setOnMouseExited(event ->
                 btnSearch.setStyle("-fx-border-color: black; -fx-background-color: LavenderBlush"));
 
@@ -118,8 +128,10 @@ public class Account {
         });
         fieldSettings.setOnMouseExited(event ->
                 fieldSettings.setStyle("-fx-text-fill:grey"));
-        fieldVacBans.setOnMouseExited(event ->
-                fieldVacBans.setStyle("-fx-text-fill:grey"));
+        fieldVacBans.setOnMouseExited(event -> {
+            fieldVacBans.setStyle("-fx-text-fill:grey");
+            fieldVacBans.setText("VacBans");
+        });
         fieldAuthor.setOnMouseExited(event ->
                 fieldAuthor.setStyle("-fx-text-fill:grey"));
 
@@ -145,7 +157,17 @@ public class Account {
                 return;
             }
             Stage stage = (Stage) fieldHistory.getScene().getWindow();
-            Window.updateWindow(stage, "История", "history.fxml", 318, 728, false);
+            Window.updateWindow(stage, "История", "history.fxml", 318, 646, false);
+        });
+
+        fieldVacBans.setOnMouseClicked(event -> {
+            if(vacChecker.getSizeBans() == 0) {
+                fieldVacBans.setText("Пусто..");
+                fieldVacBans.setStyle("-fx-text-fill:#9e1c1c");
+                return;
+            }
+            Stage stage = (Stage) fieldVacBans.getScene().getWindow();
+            Window.updateWindow(stage, "Чекер", "list_checker.fxml", 318, 646, false);
         });
 
         fieldName.setOnMouseClicked(event -> {
@@ -155,6 +177,29 @@ public class Account {
 
             fieldName.setText("Молодец! Скопировал");
             fieldName.setStyle("-fx-text-fill:#1ca431");
+        });
+
+        btnTrack.setOnAction(event -> {
+            int index = vacChecker.getIndexSteamID(steamAccount.getSteamID64());
+
+            fieldTrack.setText(index != -1 ? "Не отслеживается" : "Отслеживается");
+            fieldTrack.setStyle("-fx-text-fill:" +
+                    (index != -1 ? "#0a8228" : "#0a6983"));
+
+            btnTrack.setText(index != -1 ? "Следить" : "Удалить");
+
+            if(index != -1) {
+                vacChecker.removeVacChecker(index);
+                return;
+            }
+
+            String name = steamAccount.getSteamName();
+            String steamID64 = steamAccount.getSteamID64();
+            String avatar = steamAccount.getSteamAvatarMini();
+            String vacBans = steamAccount.getSteamVacBans();
+            String gameBans = steamAccount.getSteamGameBan();
+            String tradeBan = steamAccount.getSteamTradeBan();
+            vacChecker.addData(name, steamID64, avatar, vacBans, gameBans, tradeBan);
         });
     }
 
@@ -175,7 +220,7 @@ public class Account {
             return;
         }
 
-        getIDtoLink.getID(search, false);
+        getData.getID(search, false);
         eventSetInfo();
     }
 
@@ -204,8 +249,12 @@ public class Account {
 
         fieldMember.setText(steamAccount.getSteamMember());
 
-        fieldVacBan.setText("VAC Банов" +
-                (steamAccount.getSteamVacBans().equals("0") ? " нету" : ": " + steamAccount.getSteamVacBans()));
+        fieldGameBans.setText(steamAccount.getSteamGameBan());
+        fieldGameBans.setStyle(steamAccount.getSteamGameBan().equals("Нет игровых блокировок") ?
+                "-fx-text-fill:#117539" : "-fx-text-fill:#9e1c1c");
+
+        fieldVacBan.setText("VAC Бан" +
+                (steamAccount.getSteamVacBans().equals("0") ? " не имеется" : "имеется"));
         fieldVacBan.setStyle(steamAccount.getSteamVacBans().equals("0") ? "-fx-text-fill:#117539" : "-fx-text-fill:#9e1c1c");
 
         fieldTradeBans.setText("Trade бан " +
@@ -214,6 +263,13 @@ public class Account {
 
         fieldLimited.setText(steamAccount.getSteamLimit().equals("0") ? "Аккаунт без ограничений." : "Аккаунт с ограничениями..");
         fieldLimited.setStyle(steamAccount.getSteamLimit().equals("0") ? "-fx-text-fill:#117539" : "-fx-text-fill:#9e1c1c");
+
+        fieldTrack.setText(
+                vacChecker.getIndexSteamID(steamAccount.getSteamID64()) != -1 ? "Отслеживается" : "Не отслеживается");
+        fieldTrack.setStyle("-fx-text-fill:" +
+                (vacChecker.getIndexSteamID(steamAccount.getSteamID64()) != -1 ? "#0a6983" : "#0a8228"));
+
+        btnTrack.setText(vacChecker.getIndexSteamID(steamAccount.getSteamID64()) != -1 ? "Удалить" : "Следить");
     }
 
 }

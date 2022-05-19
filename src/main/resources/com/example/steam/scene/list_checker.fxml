@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="318.0" style="-fx-background-color: #22262b;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steam.controllers.History">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="646.0" prefWidth="318.0" style="-fx-background-color: #22262b;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steam.controllers.VacBans">
    <children>
       <AnchorPane layoutX="14.0" layoutY="14.0" prefHeight="621.0" prefWidth="288.0" style="-fx-background-color: LavenderBlush;">
          <children>
@@ -30,7 +30,7 @@
                   <Font name="Consolas Bold" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="fieldVacBans" layoutX="201.0" layoutY="579.0" prefHeight="1.0" prefWidth="63.0" text="VacBans" textFill="GREY">
+            <Label fx:id="fieldHistory" layoutX="201.0" layoutY="579.0" prefHeight="1.0" prefWidth="63.0" text="История" textFill="GREY">
                <font>
                   <Font name="Consolas Bold" size="16.0" />
                </font>
@@ -52,12 +52,11 @@
                </font>
             </Label>
             <Pagination fx:id="PageCount" layoutY="86.0" prefHeight="493.0" prefWidth="290.0" />
-            <Label alignment="CENTER" layoutX="6.0" layoutY="65.0" prefHeight="18.0" prefWidth="279.0" text="Список людей которых вы искали:" textFill="GREY">
+            <Label alignment="CENTER" layoutX="6.0" layoutY="65.0" prefHeight="18.0" prefWidth="279.0" text="Список людей которых вы отслеживаете" textFill="GREY">
                <font>
                   <Font name="Consolas Bold" size="13.0" />
                </font>
             </Label>
-            <AnchorPane layoutX="21.0" layoutY="86.0" prefHeight="449.0" prefWidth="0.0" />
          </children></AnchorPane>
    </children>
 </AnchorPane>

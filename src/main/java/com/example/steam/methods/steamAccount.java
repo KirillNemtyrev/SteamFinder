@@ -5,12 +5,14 @@ public class steamAccount {
     private static String steamID64;
     private static String steamName;
     private static String steamAvatar;
+    private static String steamAvatarMini;
     private static String steamMember;
     private static String customURL;
     private static String steamPrivacy;
     private static String steamOnline;
 
     private static String steamVacBans;
+    private static String steamGameBan;
     private static String steamTradeBan;
     private static String steamLimit;
 
@@ -92,5 +94,21 @@ public class steamAccount {
 
     public static void setSteamMember(String steamMember) {
         steamAccount.steamMember = steamMember;
+    }
+
+    public static String getSteamGameBan() {
+        return steamGameBan;
+    }
+
+    public static void setSteamGameBan(String steamGameBan) {
+        steamAccount.steamGameBan = steamGameBan;
+    }
+
+    public static String getSteamAvatarMini() {
+        return steamAvatarMini;
+    }
+
+    public static void setSteamAvatarMini(String steamAvatarMini) {
+        steamAccount.steamAvatarMini = steamAvatarMini;
     }
 }
