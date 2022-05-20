@@ -102,7 +102,7 @@
                   <Font name="Consolas Bold" size="16.0" />
                </font>
             </Label>
-            <Label fx:id="fieldTradeBans" alignment="CENTER" layoutX="40.0" layoutY="486.0" prefHeight="18.0" prefWidth="213.0" text="Trade бана нет." textFill="#b50606">
+            <Label fx:id="fieldTradeBans" alignment="CENTER" layoutX="40.0" layoutY="468.0" prefHeight="18.0" prefWidth="213.0" text="Trade бана нет." textFill="#b50606">
                <font>
                   <Font name="Consolas Bold" size="16.0" />
                </font>
@@ -125,7 +125,7 @@
                   <Font name="Consolas Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="fieldGameBans" alignment="CENTER" layoutY="468.0" prefHeight="18.0" prefWidth="290.0" text="1 Игровая блокировка" textFill="#b50606">
+            <Label fx:id="fieldGameBans" alignment="CENTER" layoutX="-3.0" layoutY="486.0" prefHeight="18.0" prefWidth="290.0" text="1 Игровая блокировка" textFill="#b50606">
                <font>
                   <Font name="Consolas Bold" size="16.0" />
                </font>

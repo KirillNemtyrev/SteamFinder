@@ -17,7 +17,8 @@ public class StartApplication extends Application {
         vacChecker.getVacBans();
         vacChecker.getCheckedAccount();
 
-        getData.getID("https://steamcommunity.com/profiles/" + configApp.steamIDValue(), true);
+        getData.getID("https://steamcommunity.com/profiles/" +
+                (configApp.isShowLastProfile() ? configApp.steamIDValue() : configApp.getMain_steamID64()), true);
         Window.open("Главная", "account.fxml", 318, 646);
     }
 

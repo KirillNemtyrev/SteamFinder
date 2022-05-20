@@ -10,9 +10,13 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 public class getData {
 
@@ -27,6 +31,7 @@ public class getData {
             Document document = builder.parse(xmlFile);
 
             Element profile = document.getDocumentElement();
+            if(profile.getElementsByTagName("steamID64").item(0) == null) return;
             String steamID64 = profile.getElementsByTagName("steamID64").item(0).getTextContent();
             String steamOnline = profile.getElementsByTagName("onlineState").item(0).getTextContent();
             String steamVacBans = profile.getElementsByTagName("vacBanned").item(0).getTextContent();
@@ -41,7 +46,7 @@ public class getData {
                     getTextContent().replaceAll("(<\\!\\[CDATA\\[)|(\\]\\]>)","");
             String steamAvatar = profile.getElementsByTagName("avatarFull").item(0).
                     getTextContent().replaceAll("(<\\!\\[CDATA\\[)|(\\]\\]>)","");
-            String steamAvatarMini = profile.getElementsByTagName("avatarFull").item(0).
+            String steamAvatarMini = profile.getElementsByTagName("avatarIcon").item(0).
                     getTextContent().replaceAll("(<\\!\\[CDATA\\[)|(\\]\\]>)","");
 
             steamAccount.setSteamID64(steamID64);
@@ -64,8 +69,6 @@ public class getData {
                 configApp.saveParams();
             }
 
-            // Remove file temp
-            xmlFile.delete();
         }
         catch (IOException | SAXException | ParserConfigurationException e) {
             System.out.println("Open error parsing " + e);

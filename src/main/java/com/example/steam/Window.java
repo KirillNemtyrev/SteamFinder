@@ -6,6 +6,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.awt.*;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -31,7 +32,7 @@ public class Window {
     public static void openModal(Stage stageOwner, String name, String file, double weight, double height){
         try {
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource(file));
+            FXMLLoader fxmlLoader = new FXMLLoader(StartApplication.class.getResource("scene/" + file));
             scene = new Scene(fxmlLoader.load(), weight, height);
             stage.setTitle(name);
             stage.setResizable(false);

@@ -10,7 +10,6 @@ public class steamAccount {
     private static String customURL;
     private static String steamPrivacy;
     private static String steamOnline;
-
     private static String steamVacBans;
     private static String steamGameBan;
     private static String steamTradeBan;

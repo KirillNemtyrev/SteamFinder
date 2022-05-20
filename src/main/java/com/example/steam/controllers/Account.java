@@ -3,6 +3,8 @@ package com.example.steam.controllers;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.time.LocalTime;
 import java.time.ZoneId;
 
@@ -11,14 +13,18 @@ import com.example.steam.methods.getData;
 import com.example.steam.methods.history;
 import com.example.steam.methods.steamAccount;
 import com.example.steam.methods.vacChecker;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+
+import javax.swing.*;
 
 public class Account {
 
@@ -150,6 +156,9 @@ public class Account {
             return;
         });
 
+        fieldAuthor.setOnMouseClicked(event ->
+            Window.openWebpage("https://github.com/KirillNemtyrev"));
+
         fieldHistory.setOnMouseClicked(event -> {
             if(history.getSizeHistory() == 0) {
                 fieldHistory.setText("Пусто..");
@@ -168,6 +177,11 @@ public class Account {
             }
             Stage stage = (Stage) fieldVacBans.getScene().getWindow();
             Window.updateWindow(stage, "Чекер", "list_checker.fxml", 318, 646, false);
+        });
+
+        fieldSettings.setOnMouseClicked(event -> {
+            Stage stage = (Stage) fieldSettings.getScene().getWindow();
+            Window.openModal(stage, "Настройки", "settings.fxml", 297, 471);
         });
 
         fieldName.setOnMouseClicked(event -> {
@@ -196,7 +210,7 @@ public class Account {
             String name = steamAccount.getSteamName();
             String steamID64 = steamAccount.getSteamID64();
             String avatar = steamAccount.getSteamAvatarMini();
-            String vacBans = steamAccount.getSteamVacBans();
+            Long vacBans = Long.valueOf(steamAccount.getSteamVacBans());
             String gameBans = steamAccount.getSteamGameBan();
             String tradeBan = steamAccount.getSteamTradeBan();
             vacChecker.addData(name, steamID64, avatar, vacBans, gameBans, tradeBan);
@@ -220,6 +234,8 @@ public class Account {
             return;
         }
 
+        getData.getID("https://steamcommunity.com/profiles/" + search, false);
+        getData.getID("https://steamcommunity.com/id/" + search, false);
         getData.getID(search, false);
         eventSetInfo();
     }
@@ -253,11 +269,11 @@ public class Account {
         fieldGameBans.setStyle(steamAccount.getSteamGameBan().equals("Нет игровых блокировок") ?
                 "-fx-text-fill:#117539" : "-fx-text-fill:#9e1c1c");
 
-        fieldVacBan.setText("VAC Бан" +
-                (steamAccount.getSteamVacBans().equals("0") ? " не имеется" : "имеется"));
+        fieldVacBan.setText("VAC Бан: " +
+                (steamAccount.getSteamVacBans().equals("0") ? "не имеется" : "имеется"));
         fieldVacBan.setStyle(steamAccount.getSteamVacBans().equals("0") ? "-fx-text-fill:#117539" : "-fx-text-fill:#9e1c1c");
 
-        fieldTradeBans.setText("Trade бан " +
+        fieldTradeBans.setText("Trade бан: " +
                 (steamAccount.getSteamTradeBan().equals("None") ? "отстуствует" : "имеется"));
         fieldTradeBans.setStyle(steamAccount.getSteamTradeBan().equals("None") ? "-fx-text-fill:#117539" : "-fx-text-fill:#9e1c1c");
 

@@ -23,6 +23,19 @@ import static com.example.steam.methods.getData.getGameBans;
 public class vacChecker {
     private static JSONArray data = new JSONArray();
     private static final File file = new File("vacBans.json");
+    private static int indexData;
+
+    private static String SteamID64 = null;
+
+    private static String SteamName = null;
+
+    private static String SteamAvatar = null;
+
+    private static Long SteamVacBan;
+
+    private static String SteamTradeBan = null;
+
+    private static String SteamGameBan = null;
 
     public static void getVacBans(){
         try {
@@ -67,7 +80,16 @@ public class vacChecker {
         return data.size();
     }
 
-    public static void addData(String name, String steamID64, String Avatar, String VacBans, String GameBans, String TradeBan){
+    public static void clearVacBans() {
+        try {
+            data.clear();
+            Files.write(Paths.get("vacBans.json"), data.toString().getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void addData(String name, String steamID64, String Avatar, Long VacBans, String GameBans, String TradeBan){
         try {
             if(!file.isFile()) file.createNewFile();
 
@@ -78,9 +100,9 @@ public class vacChecker {
             object.put("VacBans", VacBans);
             object.put("GameBans", GameBans);
             object.put("TradeBans", TradeBan);
-            object.put("NewVacBans", "None");
-            object.put("NewGameBans", "None");
-            object.put("NewTradeBans", "None");
+            object.put("NewVacBans", VacBans);
+            object.put("NewGameBans", GameBans);
+            object.put("NewTradeBans", TradeBan);
             object.put("MessageCount", 0);
 
             data.add(object);
@@ -98,7 +120,7 @@ public class vacChecker {
         for(int count = 0; count < data.size(); count++){
             JSONObject profile = (JSONObject) data.get(count);
 
-            String VacBans = (String) profile.get("VacBans");
+            Long VacBans = (Long) profile.get("VacBans");
             String GameBans = (String) profile.get("GameBans");
             String TradeBans = (String) profile.get("TradeBans");
 
@@ -111,7 +133,7 @@ public class vacChecker {
             Document document = builder.parse(xmlFile);
 
             Element dataProfile = document.getDocumentElement();
-            String steamVacBans = dataProfile.getElementsByTagName("vacBanned").item(0).getTextContent();
+            int steamVacBans = Integer.parseInt(dataProfile.getElementsByTagName("vacBanned").item(0).getTextContent());
             String steamTradeBan = dataProfile.getElementsByTagName("tradeBanState").item(0).getTextContent();
             String getGameBan = getGameBans(link + "/");
             String steamGameBans = getGameBan == null ? "Нет игровых блокировок" :
@@ -119,7 +141,7 @@ public class vacChecker {
                             getGameBan + " игровая(-ы) блокировка";
 
             int countMessage = 0;
-            if(!VacBans.equals(steamVacBans)){
+            if(VacBans != steamVacBans){
                 profile.replace("NewVacBans", steamVacBans);
                 countMessage += 1;
             }
@@ -144,7 +166,7 @@ public class vacChecker {
 
     public static void sendNotification(String text){
         try {
-            if (SystemTray.isSupported()) {
+            if (SystemTray.isSupported() && configApp.isSendNotification()) {
                 SystemTray tray = SystemTray.getSystemTray();
 
                 java.awt.Image image = Toolkit.getDefaultToolkit().getImage("resources/steam.png");
@@ -155,5 +177,61 @@ public class vacChecker {
         } catch (AWTException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void setIndexData(int index){
+        indexData = index;
+    }
+
+    public static int getIndexData(){
+        return indexData;
+    }
+
+    public static void setSteamID64(String SteamID64){
+        vacChecker.SteamID64 = SteamID64;
+    }
+
+    public static String getSteamID64(){
+        return SteamID64;
+    }
+
+    public static void setSteamName(String SteamName){
+        vacChecker.SteamName = SteamName;
+    }
+
+    public static String getSteamName(){
+        return SteamName;
+    }
+
+    public static void setSteamAvatar(String SteamAvatar){
+        vacChecker.SteamAvatar = SteamAvatar;
+    }
+
+    public static String getSteamAvatar(){
+        return SteamAvatar;
+    }
+
+    public static void setSteamVacBan(Long SteamVacBan){
+        vacChecker.SteamVacBan = SteamVacBan;
+    }
+
+    public static Long getSteamVacBan(){
+        return SteamVacBan;
+    }
+
+    public static void setSteamGameBan(String SteamGameBan){
+        vacChecker.SteamGameBan = SteamGameBan;
+    }
+
+    public static String getSteamGameBan(){
+        return SteamGameBan;
+    }
+
+    public static void setSteamTradeBan(String SteamTradeBan){
+        vacChecker.SteamTradeBan = SteamTradeBan;
+    }
+
+    public static String getSteamTradeBan(){
+        return SteamTradeBan;
     }
 }

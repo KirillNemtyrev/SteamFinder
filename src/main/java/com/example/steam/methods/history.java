@@ -37,6 +37,15 @@ public class history {
         return data.size();
     }
 
+    public static void clearHistory() {
+        try {
+            data.clear();
+            Files.write(Paths.get("history.json"), data.toString().getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void addData(String name, String steamID64, String Avatar){
         try {
             if(!file.isFile()) file.createNewFile();

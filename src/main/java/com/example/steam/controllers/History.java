@@ -85,6 +85,14 @@ public class History {
             Window.updateWindow(stage, "Главная", "account.fxml", 318, 646, false);
         });
 
+        fieldSettings.setOnMouseClicked(event -> {
+            Stage stage = (Stage) fieldSettings.getScene().getWindow();
+            Window.openModal(stage, "Настройки", "settings.fxml", 297, 471);
+        });
+
+        fieldAuthor.setOnMouseClicked(event ->
+                Window.openWebpage("https://github.com/KirillNemtyrev"));
+
         fieldVacBans.setOnMouseClicked(event -> {
             if(vacChecker.getSizeBans() == 0) {
                 fieldVacBans.setText("Пусто..");

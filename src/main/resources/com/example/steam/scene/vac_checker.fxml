@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="323.0" prefWidth="271.0" style="-fx-background-color: #22262b;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steam.controllers.VacChecker">
+   <children>
+      <AnchorPane layoutX="15.0" layoutY="15.0" prefHeight="296.0" prefWidth="244.0" style="-fx-background-color: LavenderBlush;">
+         <children>
+            <ImageView fitHeight="49.0" fitWidth="50.0" layoutX="26.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/steam.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </ImageView>
+            <Label layoutX="79.0" layoutY="7.0" prefHeight="36.0" prefWidth="138.0" text="SteamFinder" textFill="#051a75">
+               <font>
+                  <Font name="Consolas Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label layoutX="94.0" layoutY="34.0" prefHeight="18.0" prefWidth="89.0" text="VacChecker" textFill="#221f1f">
+               <font>
+                  <Font name="Consolas Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="fieldTrack" alignment="CENTER_RIGHT" layoutX="13.0" layoutY="205.0" prefHeight="18.0" prefWidth="124.0" text="Не отслеживается" textAlignment="RIGHT" textFill="GREY">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnTrack" layoutX="148.0" layoutY="202.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="82.0" style="-fx-background-color: LavenderBlush; -fx-border-color: black;" text="Удалить">
+               <font>
+                  <Font name="Consolas Bold" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <WebView fx:id="webAvatar" layoutX="24.0" layoutY="74.0" prefHeight="32.0" prefWidth="32.0" />
+            <Label fx:id="fieldName" layoutX="75.0" layoutY="74.0" prefHeight="17.0" prefWidth="164.0" text="Игровой ник-нейм" textFill="GREY">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="fieldSteamID" layoutX="66.0" layoutY="89.0" prefHeight="17.0" prefWidth="164.0" text="Чтобы скопировать, кликни." textFill="GREY">
+               <font>
+                  <Font name="Consolas Bold" size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="fieldBans" alignment="CENTER" layoutX="45.0" layoutY="123.0" prefHeight="67.0" prefWidth="154.0" text="Новых блокировок с момента слежки не обнаружено..." textAlignment="CENTER" textFill="#ae4040" wrapText="true">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="5.0" layoutY="266.0" prefHeight="32.0" prefWidth="234.0" text="Чтобы перейти к профилю, кликни на аватарку" textAlignment="CENTER" textFill="#a19292" wrapText="true">
+               <font>
+                  <Font name="Consolas Bold" size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="fieldMore" alignment="CENTER_RIGHT" layoutX="40.0" layoutY="247.0" prefHeight="18.0" prefWidth="164.0" text="Перейти к аккаунту..." textAlignment="RIGHT" textFill="GREY">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font>
+            </Label>
+            <AnchorPane layoutX="68.0" layoutY="105.0" prefHeight="2.0" prefWidth="154.0" style="-fx-background-color: #22262b;" />
+            <AnchorPane layoutX="14.0" layoutY="265.0" prefHeight="2.0" prefWidth="208.0" style="-fx-background-color: #22262b;" />
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="471.0" prefWidth="297.0" style="-fx-background-color: #22262b;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.steam.controllers.Settings">
+   <children>
+      <AnchorPane layoutX="15.0" layoutY="15.0" prefHeight="443.0" prefWidth="268.0" style="-fx-background-color: LavenderBlush;">
+         <children>
+            <ImageView fitHeight="49.0" fitWidth="50.0" layoutX="33.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/steam.png" />
+               </image>
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </ImageView>
+            <Label layoutX="91.0" layoutY="10.0" prefHeight="36.0" prefWidth="138.0" text="SteamFinder" textFill="#051a75">
+               <font>
+                  <Font name="Consolas Bold" size="22.0" />
+               </font>
+            </Label>
+            <Label fx:id="clearHistory" layoutX="65.0" layoutY="382.0" prefHeight="0.0" prefWidth="148.0" text="Очистить Историю" textFill="GREY">
+               <font>
+                  <Font name="Consolas Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="116.0" layoutY="37.0" prefHeight="18.0" prefWidth="89.0" text="Настройки" textFill="#221f1f">
+               <font>
+                  <Font name="Consolas Bold" size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnLastSearch" layoutX="143.0" layoutY="145.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="105.0" style="-fx-background-color: LavenderBlush; -fx-border-color: black;" text="Не Показывать">
+               <font>
+                  <Font name="Consolas Bold" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label fx:id="fieldReminder" alignment="CENTER_RIGHT" layoutX="9.0" layoutY="69.0" prefHeight="18.0" prefWidth="148.0" text="Уведомления выключены" textAlignment="RIGHT" textFill="GREY">
+               <font>
+                  <Font name="Consolas Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="clearVacBans" layoutX="65.0" layoutY="400.0" prefHeight="18.0" prefWidth="148.0" text="Очистить VacBans" textFill="GREY">
+               <font>
+                  <Font name="Consolas Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="fieldClearAll" layoutX="83.0" layoutY="418.0" prefHeight="18.0" prefWidth="112.0" text="Сбросить всё" textFill="#9a1414">
+               <font>
+                  <Font name="Consolas Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="fieldVacChecker" alignment="CENTER" layoutX="4.0" layoutY="90.0" prefHeight="49.0" prefWidth="174.0" text="Список VacBans будет проверятся каждые N часов" textAlignment="CENTER" textFill="GREY" wrapText="true">
+               <font>
+                  <Font name="Consolas Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label alignment="CENTER" layoutX="14.0" layoutY="139.0" prefHeight="36.0" prefWidth="122.0" text="Последний активный аккаунт с поиска" textAlignment="CENTER" textFill="GREY" wrapText="true">
+               <font>
+                  <Font name="Consolas Bold" size="12.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnReminder" layoutX="164.0" layoutY="66.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="82.0" style="-fx-background-color: LavenderBlush; -fx-border-color: black;" text="Запретить">
+               <font>
+                  <Font name="Consolas Bold" size="12.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label alignment="CENTER_RIGHT" layoutX="13.0" layoutY="188.0" prefHeight="49.0" prefWidth="243.0" text="Если у вас включено 'Не Показывать' последний аккаунт с поиска, то можно будет указать свой аккаунт" textAlignment="CENTER" textFill="GREY" wrapText="true">
+               <font>
+                  <Font name="Consolas Bold" size="12.0" />
+               </font>
+            </Label>
+            <WebView fx:id="webAvatar" layoutX="17.0" layoutY="341.0" prefHeight="32.0" prefWidth="32.0" />
+            <TextField fx:id="fieldLink" focusTraversable="false" layoutX="17.0" layoutY="267.0" prefHeight="18.0" prefWidth="234.0" style="-fx-background-color: #c6ccd2; -fx-border-color: black; -fx-text-inner-color: #22262b;">
+               <font>
+                  <Font name="Consolas" size="12.0" />
+               </font>
+            </TextField>
+            <Label layoutX="20.0" layoutY="249.0" prefHeight="18.0" prefWidth="164.0" text="Full URL/SteamID/SteamID64" textFill="GREY">
+               <font>
+                  <Font name="Consolas Bold" size="11.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnSearch" layoutX="17.0" layoutY="298.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="234.0" style="-fx-background-color: LavenderBlush; -fx-border-color: black;" text="ПОИСК АККАУНТА">
+               <font>
+                  <Font name="Consolas Bold" size="13.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label fx:id="fieldName" layoutX="57.0" layoutY="341.0" prefHeight="17.0" prefWidth="191.0" text="Игровой ник-нейм" textFill="GREY">
+               <font>
+                  <Font name="Consolas Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="fieldSteamID" layoutX="57.0" layoutY="358.0" prefHeight="17.0" prefWidth="164.0" text="Чтобы скопировать, кликни." textFill="GREY">
+               <font>
+                  <Font name="Consolas Bold" size="11.0" />
+               </font>
+            </Label>
+            <Label fx:id="fieldHourChecker" alignment="CENTER" layoutX="205.0" layoutY="103.0" prefHeight="24.0" prefWidth="20.0" text="24" textAlignment="CENTER" textFill="GREY" wrapText="true">
+               <font>
+                  <Font name="Consolas Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="fieldPlusHour" alignment="CENTER" layoutX="229.0" layoutY="103.0" prefHeight="17.0" prefWidth="7.0" text="&gt;" textAlignment="CENTER" textFill="GREY" wrapText="true">
+               <font>
+                  <Font name="Consolas Bold" size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="fieldMinusHour" alignment="CENTER" layoutX="190.0" layoutY="103.0" prefHeight="17.0" prefWidth="7.0" text="&lt;" textAlignment="CENTER" textFill="GREY" wrapText="true">
+               <font>
+                  <Font name="Consolas Bold" size="20.0" />
+               </font>
+            </Label>
+            <AnchorPane layoutX="192.0" layoutY="129.0" prefHeight="1.0" prefWidth="49.0" style="-fx-background-color: #22262b;" />
+         </children></AnchorPane>
+   </children>
+</AnchorPane>

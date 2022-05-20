@@ -84,6 +84,14 @@ public class VacBans {
             Window.updateWindow(stage, "Главная", "account.fxml", 318, 646, false);
         });
 
+        fieldSettings.setOnMouseClicked(event -> {
+            Stage stage = (Stage) fieldSettings.getScene().getWindow();
+            Window.openModal(stage, "Настройки", "settings.fxml", 297, 471);
+        });
+
+        fieldAuthor.setOnMouseClicked(event ->
+                Window.openWebpage("https://github.com/KirillNemtyrev"));
+
         fieldHistory.setOnMouseClicked(event -> {
             if(history.getSizeHistory() == 0) {
                 fieldHistory.setText("Пусто..");
@@ -135,7 +143,7 @@ public class VacBans {
     }
 
     @FXML
-    public AnchorPane createPane(double posX, double posY, String SteamID64, boolean border_red) {
+    public AnchorPane createPane(double posX, double posY, int index, String SteamID64, boolean border_red) {
 
         AnchorPane ListPane = new AnchorPane();
         ListPane.setLayoutX(posX);
@@ -145,12 +153,23 @@ public class VacBans {
         ListPane.setCursor(Cursor.cursor("HAND"));
         ListPane.setStyle("-fx-background-color: #2f353c;" + (border_red ? "-fx-border-color:red" : ""));
 
-        ListPane.setOnMouseEntered(event -> ListPane.setStyle("-fx-background-color: #192128"));
-        ListPane.setOnMouseExited(event -> ListPane.setStyle("-fx-background-color: #2f353c"));
+        ListPane.setOnMouseEntered(event -> ListPane.setStyle("-fx-background-color: #192128;" +
+                (border_red ? "-fx-border-color:red" : "")));
+        ListPane.setOnMouseExited(event -> ListPane.setStyle("-fx-background-color: #2f353c;" +
+                (border_red ? "-fx-border-color:red" : "")));
         ListPane.setOnMouseClicked(event -> {
-            getData.getID("https://steamcommunity.com/profiles/" + SteamID64, true);
-            Stage stage = (Stage) fieldMain.getScene().getWindow();
-            Window.updateWindow(stage, "Главная", "account.fxml", 318, 646, false);
+
+            JSONObject data = vacChecker.getData(index);
+            vacChecker.setIndexData(index);
+            vacChecker.setSteamID64((String) data.get("SteamID64"));
+            vacChecker.setSteamName((String) data.get("Name"));
+            vacChecker.setSteamAvatar((String) data.get("Avatar"));
+            vacChecker.setSteamVacBan((Long) data.get("VacBans"));
+            vacChecker.setSteamTradeBan((String) data.get("TradeBans"));
+            vacChecker.setSteamGameBan((String) data.get("GameBans"));
+
+            Stage stage = (Stage) ListPane.getScene().getWindow();
+            Window.openModal(stage, "VacChecker", "vac_checker.fxml", 271, 323);
         });
         return ListPane;
     }
@@ -174,14 +193,15 @@ public class VacBans {
 
         JSONObject data = vacChecker.getData(index);
         int Remindes = (int) data.get("MessageCount");
-        AnchorPane farmPane = createPane(posX, posY, (String) data.get("SteamID64"), Remindes != 0);
+        String SteamID64 = (String) data.get("SteamID64");
+        AnchorPane farmPane = createPane(posX, posY, index, SteamID64, Remindes != 0);
 
         String NAME = (String) data.get("Name");
         addLabel(farmPane, "CENTER", NAME, "GREY", 54.0, 15.0, 179,18);
 
         if(Remindes != 0)
             addLabel(farmPane, "CENTER",
-                    "+" + ((Remindes <= 9) ? Remindes : "9"), "#b25050", 52, 27, 18,18);
+                    "+" + Remindes, "#b25050", 52, 27, 18,18);
 
         WebView Avatar = new WebView();
         Avatar.setPrefHeight(32.0);
